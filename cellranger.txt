@@ -1,0 +1,23 @@
+#!/bin/bash
+#SBATCH --job-name=cellranger
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=20G
+#SBATCH --time=24:00:00
+#SBATCH --partition=basic
+#SBATCH --output=/scratch/course/2023w300106/flor/cellranger.log
+#SBATCH --error=/scratch/course/2023w300106/flor/cellranger.err
+#SBATCH --mail-type=END
+#SBATCH --mail-user=andreeamarcut19@yahoo.com
+
+module load cellranger 
+module list 
+
+cellranger mkref --genome Nv_1 --fasta /scratch/course/2023w300106/flor/Nv2_wnt4_pcna_fluo.fa
+--genes /scratch/course/2023w300106/flor/Nv2_wnt4_pcna_fluo.gtf --nthreads 16
+
+
+##cellranger mkref: This is the command for creating a reference genome using Cell Ranger.
+##genome Nv_1 specifies the name of the reference genome to be created.
+##fasta specifies the path to the reference genome FASTA file.
+##genes specifies the path to the gene annotation file in GTF format.

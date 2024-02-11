@@ -1,0 +1,34 @@
+#!/bin/bash
+#SBATCH --job-name=starTest3
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=4G
+#SBATCH --time=10:00:00
+#SBATCH --partition=basic
+#SBATCH --output=/scratch/course/2023w300106/flor/star3.log
+#SBATCH --error=/scratch/course/2023w300106/flor/star3.log.err
+#SBATCH --mail-type=END
+#SBATCH --mail-user=andreeamarcut19@yahoo.com
+
+##Environement 
+module load star 
+module list
+
+cd /scratch/course/2023w300106/flor
+
+##This command salign the RNA-Seq reads to the specified reference genome
+
+STAR --runThreadN 16 \
+--genomeDir /scratch/course/2023w300106/flor/ex9/HADO01_STAR/ \
+--readFilesIn /scratch/course/2023w300106/flor/SRR24348402/SRR24348402_trim/SRR24348402_R1.qc.fastq \
+  /scratch/course/2023w300106/flor/SRR24348402/SRR24348402_trim/SRR24348402_R2.qc.fastq \
+ --twopassMode Basic \
+ --outFileNamePrefix SRR24348402_HADO01_ --outSAMtype BAM SortedByCoordinate
+
+
+##runThreadN 16 specifies the number of threads to be used during the alignment.
+##genomeDir specifies the directory containing the indexed genome for the STAR aligner.
+##readFilesIn specifies the paths to the input paired-end FASTQ files.
+##twopassMode Basic enables the two-pass mapping mode in STAR, which is used to improve the accuracy of alignments.
+##outFileNamePrefix specifies the prefix for the output files.
+##outSAMtype BAM SortedByCoordinat specifies the output format as BAM and requests sorting of the output alignments by coordinate.

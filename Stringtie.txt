@@ -1,0 +1,31 @@
+#!/bin/bash
+
+#SBATCH --job-name=stringtie
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=6
+#SBATCH --mem=32G
+#SBATCH --time=2:00:00
+#SBATCH --partition=basic
+#SBATCH --output=/scratch/course/2023w300106/flor/stringtie.log
+#SBATCH --error=/scratch/course/2023w300106/flor/stringtie.err
+#SBATCH --mail-type=END
+#SBATCH --mail-user=andreeamarcut19@yahoo.com
+
+### MODULES
+module load stringtie
+module list
+
+### EXECUTION
+mkdir /scratch/course/2023w300106/flor/ex6
+cd /scratch/course/2023w300106/flor/ex6
+
+echo"stringtie /scratch/course/2023w300106/BAMS/SRR24348402.f.bam -l NemVecV1 -o NemVecAnnotation.gtf -p 6 -u"
+stringtie /scratch/course/2023w300106/BAMS/SRR24348402.f.bam -l NemVecV1 -o NemVecAnnotation.gtf -p 6 -u
+
+
+##NemVecAnnotation.gtf -p 6 -u: This is the actual stringtie command that is executed. 
+##It takes the input BAM file SRR24348402.f.bam,
+##specifies the label -l NemVecV1 for the output
+##sets the output file name (-o NemVecAnnotation.gtf)
+##specifies the number of threads (-p 6)
+##uses the -u option to create a non-redundant (unique) GTF file containing only the primary transcripts.

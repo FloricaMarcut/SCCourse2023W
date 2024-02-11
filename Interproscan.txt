@@ -1,0 +1,33 @@
+###Setting the bash so the work can be submited as a slurm job
+
+#!/bin/bash
+#SBATCH --job-name=interproscan 
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=16G
+#SBATCH --time=24:00:00
+#SBATCH --partition=basic
+#SBATCH --output=/scratch/course/2023w300106/flor/interproscan.log
+#SBATCH --error=/scratch/course/2023w300106/flor/interproscan.err
+#SBATCH --mail-type=END
+#SBATCH --mail-user=andreeamarcut19@yahoo.com
+
+###Loading the modules Java and InterProScan
+module load java 
+module load interproscan
+module list 
+
+
+interproscan.sh -b /scratch/course/2023w300106/flor/NemVec.function \
+ -cpu 16 -etra -f TSV,GFF3 -goterms -i /scratch/course/2023w300106/flor/proteinTransdecoder.fasta \
+ -iprlookup -pa -t p
+
+##b specifies the base directory for the analysis.
+##cpu specifies the number of CPUs to use.
+##etra enables transitive annotation.
+##f TSV,GFF3 specifies the output formats as TSV and GFF3.
+##goterms includes Gene Ontology (GO) terms in the output.
+##i specifies the input file.
+##iprlookup enables InterPro lookups.
+##pa prints analysis tools used.
+##t p specifies the type of output in this case, plain text.

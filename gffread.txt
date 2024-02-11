@@ -1,0 +1,26 @@
+###Sets the environment 
+
+module load gffread
+module list
+module --help
+
+##The command 
+
+gffread -g /scratch/course/2023w300106/flor/ncbi_dataset/data/GCF_932526225.1/GCF_932526225.1_jaNemVect1.1_genomic.fna
+-w transcripts.fasta \
+/scratch/course/2023w300106/flor/genomic.gff
+
+TransDecoder.LongOrfs -t /scratch/course/2023w300106/flor/transcripts.fasta \
+-S -O jaNemVec.transdecoder --complete_orfs_only
+
+TransDecoder.Predict -t /scratch/course/2023w300106/flor/transcripts.fasta \
+--single_best_only \
+-O jaNemVec.transdecoder
+
+
+##gffread is used to convert a GFF file to FASTA format using the reference genome GCF_932526225.1_jaNemVect1.1_genomic.fna.
+##TransDecoder.LongOrfs identifies long open reading frames (ORFs) 
+## S enables a strict mode where only complete ORFs are considered.
+##O jaNemVec.transdecoder specifies the output directory.
+##TransDecoder.Predict predicts likely coding regions in the transcript sequences.
+##single_best_only option selects only the single best ORF prediction for each transcript.

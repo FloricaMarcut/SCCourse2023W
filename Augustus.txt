@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#SBATCH --job-name=augustus_chr1
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=16G
+#SBATCH --time=24:00:00
+#SBATCH --partition=basic
+#SBATCH --output=/scratch/course/2023w300106/flor/augustus.log
+#SBATCH --error=/scratch/course/2023w300106/flor/augustus.err
+#SBATCH --mail-type=END
+#SBATCH --mail-user=andreeamacut19@yahoo.com
+
+### ENVIRONMENT
+module load conda
+module list
+
+conda activate augustus-3.5.0
+
+##Execution 
+
+augustus --strand=both --genemodel=complete --gff3=on --outfile=nemVec_augustus.gff --species=nematostella_vectensis \
+  cd / scratch/course/2023w300106/flor/ncbi_dataset/data/GCF_932526225.1/chr1.fasta
+
+##strand=both specifies that predictions should be made on both strands.
+##genemodel=complete specifies that predictions should include complete gene models.
+##gff3=on specifies that the output should be in GFF3 format.
+##outfile=nemVec_augustus.gff specifies the output file name as "nemVec_augustus.gff".
+##species=nematostella_vectensis specifies the species for which gene prediction is being performed.

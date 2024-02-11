@@ -1,0 +1,26 @@
+#!/bin/bash
+#SBATCH --job-name=eggnog
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=20G
+#SBATCH --time=24:00:00
+#SBATCH --partition=basic
+#SBATCH --output=/scratch/course/2023w300106/flor/cellrangercount.log
+#SBATCH --error=/scratch/course/2023w300106/flor/cellrangercount.err
+#SBATCH --mail-type=END
+#SBATCH --mail-user=andreeamarcut19@yahoo.com
+
+
+module load cellranger
+
+cellranger count --id=12h --transcriptome /lisc/scratch/course/2023w300106/flor/Nv_1_course \
+--fastqs scratch/course/2023w300106/12hr1/run1,/scratch/course/2023w300106/12hr1/run2,/scratch/course/2023w300106/12hr1/run3 \ 
+-- sample 89085
+--nosecondary --localcores 16 
+
+##id=12h specifies the name for the cellranger count run.
+##transcriptome specifies the path to the transcriptome index created using cellranger mkref.
+##fastqs specifies the paths to the directories containing the input fastq files for the sample.
+##sample=89085 specifies the sample ID.
+##nosecondary disables the generation of a secondary analysis.
+##localcores=16 specifies the number of cores to use for the local parallelization.

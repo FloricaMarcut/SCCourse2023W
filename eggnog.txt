@@ -1,0 +1,39 @@
+#!/bin/bash
+#SBATCH --job-name=eggnog
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=10G
+#SBATCH --time=24:00:00
+#SBATCH --partition=basic
+#SBATCH --output=/scratch/course/2023w300106/flor/eggnog.log
+#SBATCH --error=/scratch/course/2023w300106/flor/eggnog.err
+#SBATCH --mail-type=END
+#SBATCH --mail-user=andreeamarcut19@yahoo.com
+
+##Load the conda module and activate it 
+module load conda
+module activate eggnog-mapper-2.1.12
+
+##This is the actual command 
+##It runs the eggnog mapper to annotate protein sequences based on orthology.
+
+emapper.py -i /scratch/course/2023w300106/flor/proteinTransdecoder.fasta \
+ --cpu 16 --itype proteins --data_dir /scratch/mirror/eggnog-mapper/2.1.12
+   -m diamond --pident 60 -query_cover 60 --subject_cover 70 \
+ --tax_scope 'eukaryota_broad'
+ --output jaNemVect_emapper --output_dir /scratch/course/2023w300106/flor \
+ --temp_dir ${TMPDIR} --decorate_gff jaNemVect_emapper.dec.gff
+ 
+##i specifies the input file.
+##itype proteins specifies the input type as proteins.
+##data_dir specifies the directory containing the eggnog-mapper data.
+##m diamond specifies the mapping tool to use.
+##pident 60 specifies the minimum percent identity.
+##query_cover 60 specifies the minimum query coverage.
+##subject_cover 70 specifies the minimum subject coverage.
+##tax_scope 'eukaryota_broad' specifies the taxonomic scope.
+##output specifies the base name for output files.
+##output_dir specifies the output directory.
+##temp_dir specifies the temporary directory.
+##decorate_gff: specifies the decorated GFF file.
+

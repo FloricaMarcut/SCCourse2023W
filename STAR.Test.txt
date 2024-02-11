@@ -1,0 +1,44 @@
+STAR Alignment Bash
+
+#!/bin/bash
+#SBATCH --job-name=starTest
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=4G
+#SBATCH --time=10:00:00
+#SBATCH --partition=basic
+#SBATCH --output=/scratch/course/2023w300106/flor/star.log
+#SBATCH --error=/scratch/course/2023w300106/flor/star.log.err
+#SBATCH --mail-type=END
+#SBATCH --mail-user=andreeamarcut19@yahoo.com
+
+###Environment 
+module load star 
+module list
+
+###setting up directories 
+#cd into my own directory
+cd /scratch/course/2023w300106/flor
+
+###running the comands
+STAR --runThreadN 16 /
+--genomeDir /scratch/course/2023w300106/flor/ncbi_dataset/data/GCF_932526225.1/jaNemVect1.1_STAR  
+--readFilesIn /scratch/course/2023w300106/flor/SRR24348402/SRR24348402_1.fastq /scratch/course/2023w300106/flor/SRR24348402/SRR24348402_2.fastq
+--outSAMtype BAM SortedByCoordinate
+ --twopassMode Basic
+ --outSAMstrandField intronMotif 
+--outFileNamePrefix SRR24348402
+
+##runThreadN specifies the number of threads to be used during the alignment. 
+##genomeDir specifies the directory containing the indexed genome for the STAR aligner.
+##readFilesIn specifies the paths to the input paired-end FASTQ files.
+##outSAMtype BAM SortedByCoordinate specifies the output format as BAM and requests sorting of the output alignments by coordinate.
+##twopassMode Basic enables the two-pass mapping mode in STAR, which is used to improve the accuracy of alignments.
+##outSAMstrandField intronMotif requests the inclusion of the intron motif (GT/AG/etc.) in the output SAM file.
+##outFileNamePrefix specifies the prefix for the output files. The output files will have names starting with "SRR24348402."
+
+
+
+
+
+
